@@ -26,6 +26,7 @@ export class HomePage implements OnInit {
     ];
     this.validations_form = this.formBuilder.group({
       username: new FormControl('', Validators.compose([
+        this.validUsername,
         Validators.maxLength(25),
         Validators.minLength(5),
         Validators.pattern('^[a-zA-Z]{1}[a-zA-Z0-9]+$'),
@@ -41,6 +42,7 @@ export class HomePage implements OnInit {
       terms: new FormControl(false, Validators.pattern('true'))
     });
   }
+
   onSubmit(values) {
     console.log(values);
     let navigationExtras: NavigationExtras = {
@@ -50,6 +52,14 @@ export class HomePage implements OnInit {
       }
     };
     this.navCtrl.navigateForward('/user', navigationExtras);
+  }
+
+  validUsername(fc: FormControl) {
+    if (fc.value.toLowerCase() === "abc123" || fc.value.toLowerCase() === "cba321") {
+      return ({ validUsername: true });
+    } else {
+      return (null);
+    }
   }
 
 }
